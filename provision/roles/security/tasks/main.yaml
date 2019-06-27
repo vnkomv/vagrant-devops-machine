@@ -1,0 +1,25 @@
+- name: Find public keys in directory uploaded by vagrant
+  find:
+    path: "{{ ssh_import_folder }}"
+    patterns: '*.pub'
+    recurse: yes
+  register: pub_keys_file
+
+- name: Compute key_pairs paths
+  set_fact:
+    key_pair_files: "{{ key_pair_files | default([]) | union([item.path]) | union([item.path | replace('.pub', '')]) }}"
+  loop: "{{ pub_keys_file.files }}"
+
+- name: Copy provided key_pairs
+  copy:
+    src: "{{ item }}"
+    dest: "~/.ssh"
+    mode: "0600"
+    owner: "{{ lookup('env','USER') }}"
+    group: "{{ lookup('env','USER') }}"
+  loop: "{{ key_pair_files }}"
+
+- name: Remove the import directory
+  file:
+    state: absent
+    path: "{{ ssh_import_folder }}"

@@ -1,0 +1,57 @@
+- block:
+    - name: Install developpement packages
+      apt:
+        name: "{{ softwares }}"
+        state: latest
+
+    - name: Check terraform installation
+      stat:
+        path: /usr/local/bin/terraform
+      register: terraform
+
+    - name: Check packer installation
+      stat:
+        path: /usr/local/bin/packer
+      register: packer
+
+    - name: Software to /usr/local/bin verification
+      set_fact:
+        local_bin_softwares:
+          packer:
+            exists: "{{packer.stat.exists}}"
+            url: "{{ packer_url }}"
+          terraform:
+            exists: "{{terraform.stat.exists}}"
+            url: "{{ terraform_url }}"
+
+    - name: Download and install packer 1.4.1 and terraform 0.12.2
+      unarchive:
+        src: "{{ item.value.url }}"
+        dest: "/usr/local/bin"
+        remote_src: yes
+      loop: "{{ local_bin_softwares | dict2items }}"
+      when: not local_bin_softwares[item.key]['exists']
+
+    - name: Check Go installation
+      stat:
+        path: /usr/local/go
+      register: go_install
+
+    - name: Download and install Go 12.6
+      unarchive:
+        src: "{{ golang_url }}"
+        dest: "/usr/local"
+        remote_src: yes
+      when: not go_install.stat.exists
+
+    - name: Add go bin folder to path
+      lineinfile:
+        line: "export PATH=$PATH:/usr/local/go/bin"
+        state: present
+        path: /etc/profile
+
+    - name: Install ansible connection mode plugins
+      pip:
+        name: "{{ ansible_connection_plugins }}"
+
+  become: yes

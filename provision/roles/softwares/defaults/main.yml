@@ -1,0 +1,14 @@
+softwares:
+  - unzip
+  - git
+  - wget
+  - python-dev
+  - libffi-dev
+  - libkrb5-dev 
+  - krb5-user
+terraform_url: https://releases.hashicorp.com/terraform/0.12.2/terraform_0.12.2_linux_amd64.zip
+packer_url: https://releases.hashicorp.com/packer/1.4.1/packer_1.4.1_linux_amd64.zip
+golang_url: https://dl.google.com/go/go1.12.6.linux-amd64.tar.gz
+ansible_connection_plugins:
+  - pywinrm[kerberos]
+  - pywinrm[credssp]
