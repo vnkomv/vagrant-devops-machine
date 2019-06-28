@@ -33,6 +33,8 @@ You need the following software installed on your machine
 
 ## CONFIGURATION
 
-The following variables allow the customization of the machine:
+The following variables allow the customization of the machine. All the variables are required unless stated otherwise.
 
 - **local_sync_folder:** the folder where you will put your projects to be synchronised on the virtual machine.
+
+- **ip_address:** the static ip adress that will be use for the machine.
