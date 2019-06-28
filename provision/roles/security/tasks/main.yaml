@@ -5,6 +5,13 @@
     recurse: yes
   register: pub_keys_file
 
+- name: Add uploaded pub keys to authorized keys
+  authorized_key:
+    user: vagrant
+    state: present
+    key: "{{ lookup('file', item.path) }}"
+  loop: "{{ pub_keys_file.files }}"
+
 - name: Compute key_pairs paths
   set_fact:
     key_pair_files: "{{ key_pair_files | default([]) | union([item.path]) | union([item.path | replace('.pub', '')]) }}"
