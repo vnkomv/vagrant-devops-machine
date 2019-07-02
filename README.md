@@ -21,7 +21,7 @@ The machine has also the following configuration:
 You need the following software installed on your machine
 
 - [Vagrant](https://www.vagrantup.com/)
-- [Vagrant plugin Nugrant ](https://github.com/maoueh/nugrant)
+- [Vagrant plugin Nugrant](https://github.com/maoueh/nugrant)
 - [Vagrant plugin vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest)
 
 ## USAGE
