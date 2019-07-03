@@ -50,8 +50,8 @@
         state: present
         path: /etc/profile
 
-    - name: Install ansible connection mode plugins
+    - name: Install pip depndencies, mainly for ansible
       pip:
-        name: "{{ ansible_connection_plugins }}"
+        name: "{{ pip_dependencies }}"
 
   become: yes
